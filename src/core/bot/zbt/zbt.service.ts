@@ -1,5 +1,5 @@
 import { CacheService } from "@app/cache";
-import { hour } from "@app/common/time";
+import { hour, minute } from "@app/common/time";
 import { DiscordService } from "@app/core/discord/discord.service";
 import { Injectable } from "@nestjs/common";
 import { codeBlock, Colors, EmbedBuilder, inlineCode, italic, Message, User } from "discord.js";
@@ -20,7 +20,7 @@ export class ZbtService {
       port: this.zbtConfig.rconPort,
       password: this.zbtConfig.rconPass,
     });
-    this.rcon.connect().catch(() => {});
+    setInterval(() => this.rcon.connect().catch(() => {}), minute());
   }
 
   public async acceptRequest(message: Message, author: User) {
