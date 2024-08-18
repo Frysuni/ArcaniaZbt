@@ -6,11 +6,8 @@
   "scripts": {
     "build": "nest build",
     "dev": "nest start --watch --debug 9229 --preserveWatchOutput",
-    "start": "yarn run schema:sync && node ./dist/main.js",
-    "lint": "eslint \"./src/**/*.ts\" --fix",
-    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli",
-    "schema:sync": "yarn run typeorm -d ./dist/database/database.provider.js schema:sync",
-    "schema:drop": "yarn run typeorm -d ./dist/database/database.provider.js schema:drop"
+    "start": "node ./dist/main.js",
+    "lint": "eslint \"./src/**/*.ts\" --fix"
   },
   "dependencies": {
     "@nestjs/cli": "^10.4.4",
@@ -18,7 +15,6 @@
     "@nestjs/core": "^10.4.1",
     "@nestjs/mapped-types": "^2.0.5",
     "@nestjs/schedule": "^4.1.0",
-    "@nestjs/typeorm": "^10.0.2",
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
     "env-var": "^7.5.0",
@@ -31,7 +27,6 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "4.2.0",
     "tslib": "^2.6.3",
-    "typeorm": "^0.3.20",
     "typescript": "^5.5.4"
   },
   "devDependencies": {
