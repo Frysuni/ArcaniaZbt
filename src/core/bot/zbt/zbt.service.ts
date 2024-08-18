@@ -44,8 +44,7 @@ export class ZbtService {
     if (
       !result ||
       result instanceof Error ||
-      !result.toString().includes('Added') ||
-      !result.toString().includes('to the whitelist')
+      !result.toString().includes('Whitelisted')
     ) {
       message.reply(
         `**Не удалось отправить команду добавления в вайт-лист на сервер!**\n` +
