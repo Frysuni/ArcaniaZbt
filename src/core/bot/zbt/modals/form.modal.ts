@@ -3,7 +3,7 @@ import { formatTime } from "@app/common/format-time";
 import { textInputRowBuilder } from "@app/common/utils/text-input-row.builder";
 import { DiscordService } from "@app/core/discord/discord.service";
 import { Injectable } from "@nestjs/common";
-import { ActionRowBuilder, ButtonBuilder, Colors, EmbedBuilder, inlineCode, ModalBuilder, TextInputStyle } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, codeBlock, Colors, EmbedBuilder, inlineCode, ModalBuilder, TextInputStyle } from "discord.js";
 import { Context, Modal, ModalContext } from "necord";
 import { AcceptButton } from "../buttons/accept.button";
 import { DenyButton } from "../buttons/deny.button";
@@ -114,19 +114,19 @@ export class FormModal {
       .setFields(
         {
           name: 'Прайм-тайм:',
-          value: `> **${inlineCode(field.primeTime)}**`,
+          value: `> **${codeBlock(field.primeTime)}**`,
         }, {
           name: 'Характеристики ПК:',
-          value: `> **${inlineCode(field.pc)}**`,
+          value: `> **${codeBlock(field.pc)}**`,
         }, {
           name: 'Операционная система:',
-          value: `> **${inlineCode(field.os)}**`,
+          value: `> **${codeBlock(field.os)}**`,
         }, {
           name: 'Игровой никнейм:',
-          value: `> **${inlineCode(field.nickname)}**`,
+          value: `> **${codeBlock(field.nickname)}**`,
         }, {
           name: 'Возраст:',
-          value: `> **${inlineCode(field.age)}**`,
+          value: `> **${codeBlock(field.age)}**`,
         },
       );
 

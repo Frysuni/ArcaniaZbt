@@ -24,10 +24,12 @@ export class ZbtService {
   }
 
   public async acceptRequest(message: Message, author: User) {
+    const userId = message.embeds[0].data.description!.split('\n')[0].replace(/<|>|@/g, '').trim();
+
     this.editMessageStatus(message, author, 'accepted');
     this.switchPinMessage(message);
 
-    this.cacheService.set(`ZBT_FORMS_STATUS_${author.id}`, { accepted: true }, 'INFINITY', true);
+    this.cacheService.set(`ZBT_FORMS_STATUS_${userId}`, { accepted: true }, 'INFINITY', true);
 
     this.sendToUser(message, 'accepted');
 
@@ -57,7 +59,8 @@ export class ZbtService {
     this.editMessageStatus(message, author, 'denied', reason);
     this.switchPinMessage(message);
 
-    this.cacheService.set(`ZBT_FORMS_STATUS_${author.id}`, { deniedUntil: Date.now() + hour(12), deniedReason: reason }, 'INFINITY', true);
+    const userId = message.embeds[0].data.description!.split('\n')[0].replace(/<|>|@/g, '').trim();
+    this.cacheService.set(`ZBT_FORMS_STATUS_${userId}`, { deniedUntil: Date.now() + hour(12), deniedReason: reason }, 'INFINITY', true);
 
     this.sendToUser(message, 'denied', reason);
   }
@@ -66,7 +69,8 @@ export class ZbtService {
     this.editMessageStatus(message, author, 'skipped');
     this.switchPinMessage(message);
 
-    this.cacheService.get(`ZBT_FORMS_STATUS_${author.id}`, { withoutKeyPrefix: true, delete: true });
+    const userId = message.embeds[0].data.description!.split('\n')[0].replace(/<|>|@/g, '').trim();
+    this.cacheService.get(`ZBT_FORMS_STATUS_${userId}`, { withoutKeyPrefix: true, delete: true });
   }
 
   public async switchPinMessage(message: Message) {
