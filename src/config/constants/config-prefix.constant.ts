@@ -1,0 +1,1 @@
+export const CONFIG_PREFIX = Symbol('CONFIG_PREFIX');
