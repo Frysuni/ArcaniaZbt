@@ -20,6 +20,7 @@ export class ZbtService {
       port: this.zbtConfig.rconPort,
       password: this.zbtConfig.rconPass,
     });
+    this.rcon.connect().catch(() => {});
     setInterval(() => this.rcon.connect().catch(() => {}), minute());
   }
 

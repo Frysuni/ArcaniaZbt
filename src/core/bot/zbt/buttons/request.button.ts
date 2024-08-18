@@ -3,12 +3,14 @@ import { Injectable } from '@nestjs/common';
 import { ButtonBuilder, ButtonStyle, inlineCode } from 'discord.js';
 import { Button, ButtonContext, Context } from 'necord';
 import { FormModal } from '../modals/form.modal';
+import { ZbtConfig } from '../zbt.config';
 
 @Injectable()
 export class RequestButton {
 
   constructor(
     private readonly cacheService: CacheService,
+    private readonly zbtConfig: ZbtConfig,
   ) {}
 
   private static id = `ZBT_REQUEST_BUTTON`;
@@ -20,6 +22,14 @@ export class RequestButton {
 
   @Button(RequestButton.id)
   public async onButton(@Context() [interaction]: ButtonContext) {
+    const member = interaction.guild?.members.cache.get(interaction.user.id);
+    if (member && member.roles.cache.has(this.zbtConfig.roleId)) {
+      return interaction.reply({
+        ephemeral: true,
+        content: `Вы уже являетесь участником зактрытого бэта-тестирования.`,
+      });
+    }
+
     const status = await this.cacheService.get<
       { sended?: boolean, accepted?: boolean, deniedUntil?: boolean, deniedReason?: string }
     >(`ZBT_FORMS_STATUS_${interaction.user.id}`, { withoutKeyPrefix: true });
