@@ -116,11 +116,11 @@ export class FormModal {
           name: 'Прайм-тайм:',
           value: `> **\`\`\`${field.primeTime}\`\`\`**`,
         }, {
-          name: 'Характеристики ПК:',
-          value: `> **\`\`\`${field.pc}\`\`\`**`,
-        }, {
           name: 'Операционная система:',
           value: `> **\`\`\`${field.os}\`\`\`**`,
+        }, {
+          name: 'Характеристики ПК:',
+          value: `> **\`\`\`${field.pc}\`\`\`**`,
         }, {
           name: 'Игровой никнейм:',
           value: `> **\`\`\`${field.nickname}\`\`\`**`,
