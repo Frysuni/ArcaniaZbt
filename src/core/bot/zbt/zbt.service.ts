@@ -20,7 +20,7 @@ export class ZbtService {
       port: this.zbtConfig.rconPort,
       password: this.zbtConfig.rconPass,
     });
-    this.rcon.connect();
+    this.rcon.connect().catch(() => {});
   }
 
   public async acceptRequest(message: Message, author: User) {
