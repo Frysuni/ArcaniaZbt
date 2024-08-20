@@ -39,7 +39,7 @@ export class ZbtService {
     member.roles.add(this.zbtConfig.roleId);
 
     const nickname = message.embeds[0].fields[3].value.replace(/>|\*|`/g, '').trim();
-    const command = this.zbtConfig.rconCommand.replaceAll('%nickname%', `"${nickname}"`);
+    const command = this.zbtConfig.rconCommand.replaceAll('%nickname%', nickname);
     const result = await this.rcon.send(command).catch((e) => new Error(e));
 
     if (
