@@ -26,7 +26,7 @@ export class RequestButton {
     if (member && member.roles.cache.has(this.zbtConfig.roleId)) {
       return interaction.reply({
         ephemeral: true,
-        content: `Вы уже являетесь участником зактрытого бэта-тестирования.`,
+        content: `Ты уже участник зактрытого бета-тестирования.`,
       });
     }
 
@@ -36,18 +36,18 @@ export class RequestButton {
 
     if (status && status.accepted) return interaction.reply({
       ephemeral: true,
-      content: `Ваша заявка уже была одобрена.`,
+      content: `Твоя заявка уже была одобрена.`,
     });
     if (status && status.deniedUntil) return interaction.reply({
       ephemeral: true,
       content:
-        `Ваша заявка была отклонена.` +
+        `Твоя заявка была отклонена.` +
         `${status.deniedReason ? '\nПричина: ' + inlineCode(status.deniedReason) : '\nПричина не указана.'}` +
-        `\nВы можете повторно подать заявку <t:${~~(+status.deniedUntil / 1000)}:R>`,
+        `\nТы можешь повторно подать заявку <t:${~~(+status.deniedUntil / 1000)}:R>`,
     });
     if (status && status.sended) return interaction.reply({
       ephemeral: true,
-      content: `Ваша заявка уже была отправлена, ожидайте.`,
+      content: `Твоя заявка уже была отправлена, ожидайте.`,
     });
 
     await this.cacheService.set(`ZBT_REQUEST_START_TIME_${interaction.user.id}`, Date.now().toString(), '1d', true);
