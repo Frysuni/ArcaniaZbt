@@ -31,14 +31,14 @@ export class RequestButton {
     }
 
     const status = await this.cacheService.get<
-      { sended?: boolean, accepted?: boolean, deniedUntil?: boolean, deniedReason?: string }
+      { sended?: boolean, accepted?: boolean, deniedUntil?: number, deniedReason?: string }
     >(`ZBT_FORMS_STATUS_${interaction.user.id}`, { withoutKeyPrefix: true });
 
     if (status && status.accepted) return interaction.reply({
       ephemeral: true,
       content: `Твоя заявка уже была одобрена.`,
     });
-    if (status && status.deniedUntil) return interaction.reply({
+    if (status && status.deniedUntil && +status.deniedUntil < Date.now()) return interaction.reply({
       ephemeral: true,
       content:
         `Твоя заявка была отклонена.` +

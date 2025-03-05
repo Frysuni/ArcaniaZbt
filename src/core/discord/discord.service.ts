@@ -32,7 +32,7 @@ export class DiscordService {
     });
 
     new Logger().log(
-      '\x1b[35mРазработано специально для Arcania (August 2024)\x1b[0m',
+      '\x1b[35mРазработано специально для Arcania (March 2025)\x1b[0m',
       'AuthorFrys',
     );
 

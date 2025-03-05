@@ -35,8 +35,8 @@ export class ZbtService {
     this.sendToUser(message, 'accepted');
 
     const guild = await this.discordService.guild;
-    const member = guild.members.cache.get(author.id)!;
-    member.roles.add(this.zbtConfig.roleId);
+    const member = guild.members.cache.get(userId);
+    member?.roles.add(this.zbtConfig.roleId);
 
     const nickname = message.embeds[0].fields[3].value.replace(/>|\*|`/g, '').trim();
     const command = this.zbtConfig.rconCommand.replaceAll('%nickname%', nickname);
@@ -60,7 +60,7 @@ export class ZbtService {
     this.switchPinMessage(message);
 
     const userId = message.embeds[0].data.description!.split('\n')[0].replace(/<|>|@/g, '').trim();
-    this.cacheService.set(`ZBT_FORMS_STATUS_${userId}`, { deniedUntil: Date.now() + hour(12), deniedReason: reason }, 'INFINITY', true);
+    this.cacheService.set(`ZBT_FORMS_STATUS_${userId}`, { deniedUntil: Date.now() + hour(12), deniedReason: reason }, `${Date.now() + hour(12)}ms`, true);
 
     this.sendToUser(message, 'denied', reason);
   }

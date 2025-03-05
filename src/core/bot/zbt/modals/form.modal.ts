@@ -23,11 +23,12 @@ export class FormModal {
 
   private static readonly id = 'ZBT_MODAL_FORM';
   private static readonly fieldIds = {
-    primeTime: 'PRIME_TIME',
-    os: 'OS',
-    pc: 'PC',
     nickname: 'NICKNAME',
     age: 'AGE',
+    time: 'PRIME_TIME',
+    os: 'OS',
+    pc: 'PC',
+    about: 'ABOUT',
   };
 
   public static builder = () => new ModalBuilder()
@@ -35,34 +36,11 @@ export class FormModal {
     .setTitle('Подача заявки на ЗБТ')
     .setComponents(
       textInputRowBuilder(b => b
-        .setCustomId(FormModal.fieldIds.primeTime)
-        .setRequired(true)
-        .setStyle(TextInputStyle.Short)
-        .setLabel('Прайм-тайм')
-        .setMinLength(2)
-        .setMaxLength(256),
-      ),
-      textInputRowBuilder(b => b
-        .setCustomId(FormModal.fieldIds.os)
-        .setRequired(true)
-        .setStyle(TextInputStyle.Short)
-        .setLabel('Операционная система')
-        .setMinLength(2)
-        .setMaxLength(256),
-      ),
-      textInputRowBuilder(b => b
-        .setCustomId(FormModal.fieldIds.pc)
-        .setRequired(true)
-        .setStyle(TextInputStyle.Short)
-        .setLabel('Характеристики ПК')
-        .setMinLength(2)
-        .setMaxLength(256),
-      ),
-      textInputRowBuilder(b => b
         .setCustomId(FormModal.fieldIds.nickname)
         .setRequired(true)
         .setStyle(TextInputStyle.Short)
         .setLabel('Игровой никнейм')
+        .setPlaceholder('_Frys_')
         .setMinLength(2)
         .setMaxLength(256),
       ),
@@ -71,6 +49,43 @@ export class FormModal {
         .setRequired(true)
         .setStyle(TextInputStyle.Short)
         .setLabel('Возраст')
+        .setPlaceholder('9 лет (с половиной)')
+        .setMinLength(2)
+        .setMaxLength(256),
+      ),
+      textInputRowBuilder(b => b
+        .setCustomId(FormModal.fieldIds.time)
+        .setRequired(true)
+        .setStyle(TextInputStyle.Short)
+        .setLabel('Время игры')
+        .setPlaceholder('100-500 часов в день')
+        .setMinLength(2)
+        .setMaxLength(256),
+      ),
+      textInputRowBuilder(b => b
+        .setCustomId(FormModal.fieldIds.os)
+        .setRequired(true)
+        .setStyle(TextInputStyle.Short)
+        .setLabel('Операционная система')
+        .setPlaceholder('Что это такое?')
+        .setMinLength(2)
+        .setMaxLength(256),
+      ),
+      textInputRowBuilder(b => b
+        .setCustomId(FormModal.fieldIds.pc)
+        .setRequired(true)
+        .setStyle(TextInputStyle.Short)
+        .setLabel('Характеристики ПК')
+        .setPlaceholder('Надо знать! (но я забыл)')
+        .setMinLength(2)
+        .setMaxLength(256),
+      ),
+      textInputRowBuilder(b => b
+        .setCustomId(FormModal.fieldIds.about)
+        .setRequired(false)
+        .setStyle(TextInputStyle.Paragraph)
+        .setLabel('Напиши интересную историю')
+        .setPlaceholder('(если хочешь)')
         .setMinLength(2)
         .setMaxLength(256),
       ),
@@ -81,11 +96,12 @@ export class FormModal {
     interaction.deferReply({ ephemeral: true });
 
     const field: typeof FormModal.fieldIds = {
-      primeTime: interaction.fields.getTextInputValue(FormModal.fieldIds.primeTime),
+      time: interaction.fields.getTextInputValue(FormModal.fieldIds.time),
       os: interaction.fields.getTextInputValue(FormModal.fieldIds.os),
       pc: interaction.fields.getTextInputValue(FormModal.fieldIds.pc),
       nickname: interaction.fields.getTextInputValue(FormModal.fieldIds.nickname),
       age: interaction.fields.getTextInputValue(FormModal.fieldIds.age),
+      about: interaction.fields.getTextInputValue(FormModal.fieldIds.about),
     };
 
     const guild = await this.discordService.guild;
@@ -113,22 +129,27 @@ export class FormModal {
       )
       .setFields(
         {
-          name: 'Прайм-тайм:',
-          value: `> **\`\`\`${field.primeTime}\`\`\`**`,
+          name: 'Игровой никнейм:',
+          value: `> **\`\`\`${field.nickname}\`\`\`**`,
+        }, {
+          name: 'Возраст:',
+          value: `> **\`\`\`${field.age}\`\`\`**`,
+        }, {
+          name: 'Время игры:',
+          value: `> **\`\`\`${field.time}\`\`\`**`,
         }, {
           name: 'Операционная система:',
           value: `> **\`\`\`${field.os}\`\`\`**`,
         }, {
           name: 'Характеристики ПК:',
           value: `> **\`\`\`${field.pc}\`\`\`**`,
-        }, {
-          name: 'Игровой никнейм:',
-          value: `> **\`\`\`${field.nickname}\`\`\`**`,
-        }, {
-          name: 'Возраст:',
-          value: `> **\`\`\`${field.age}\`\`\`**`,
         },
       );
+
+    if (field.about.trim().length > 0) embed.addFields({
+      name: 'Интересная история:',
+      value: `> **\`\`\`${field.about}\`\`\`**`,
+    });
 
     const buttons = new ActionRowBuilder<ButtonBuilder>()
       .setComponents(
